@@ -1,0 +1,20 @@
+# Dependencies
+**/node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+VERCEL_ENV_VARS.txt
+
+# Build outputs
+**/.react-router/
+**/build/
+**/dist/
+
+# App data
+anivax/server/data/
+
+# OS
+.DS_Store
+Thumbs.db

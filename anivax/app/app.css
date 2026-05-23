@@ -1,0 +1,268 @@
+@import "tailwindcss";
+@import "./retrieve-history-print.css";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Brand palette — use via bg-anivax-*, text-anivax-*, border-anivax-*, etc. */
+  --color-anivax-page: #f5f5f5;
+  --color-anivax-sky: #a8d7e9;
+  --color-anivax-teal: #00979d;
+  --color-anivax-mint: #3eb489;
+  --color-anivax-forest: #1b6253;
+  --color-anivax-teal-deep: #0378aa;
+  --color-anivax-body: #565659;
+  --color-anivax-muted: #636667;
+  --color-anivax-ink: #1e1e1e;
+  --color-anivax-table-head: rgb(168 215 233 / 0.84);
+  --color-anivax-login-card: rgb(25 141 108 / 0.5);
+  --color-anivax-border: #9aa0a6;
+  --color-anivax-danger: #bf0d3e;
+  --color-anivax-green-border: #198d6c;
+  --color-anivax-green-ring: #21a89f;
+  --color-anivax-success-title: #0c2411;
+  /* Admin dashboard */
+  --color-anivax-admin-teal: #0097b2;
+  /* Patient registry / Figma RECORDS frame */
+  --color-anivax-records-coral: #ff7a59;
+  --color-anivax-registry-border: #7c5cfc;
+  --color-anivax-registry-upload-bg: #d9d9d9;
+  --color-anivax-sidebar-active: rgb(217 217 217 / 0.55);
+
+  --shadow-anivax-card: 0 4px 12px rgb(0 0 0 / 0.08);
+  --shadow-anivax-elevated: 0 4px 4px rgb(0 0 0 / 0.25);
+  --shadow-anivax-btn: 0 2px 4px rgb(0 0 0 / 0.18);
+
+  /* Material 3 pickers (VaccinationM3Pickers) */
+  --color-m3-surface: #f7f2fa;
+  --color-m3-primary: #6750a4;
+  --color-m3-on-surface: #1d1b20;
+  --color-m3-am-pink: #ffd8e4;
+  --color-m3-outline: #cac4d0;
+  --color-m3-on-surface-variant: #49454f;
+  --color-m3-time-active: #e8def8;
+  --color-m3-time-idle: #e7e0ec;
+  --shadow-m3-dialog: 0 8px 32px rgb(0 0 0 / 0.24);
+}
+
+@layer base {
+  /* Figma / clinic displays target 90% viewport scale by default. */
+  html {
+    zoom: 0.9;
+  }
+
+  html,
+  body {
+    @apply m-0 min-h-screen bg-anivax-page p-0 font-sans antialiased text-anivax-ink;
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+}
+
+/* Tables: block drag-to-select gray; rows stay white with divider + mint hover. */
+.admin-data-table,
+.queue-data-table,
+.registry-data-table,
+.schedules-data-table {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.admin-data-table ::selection,
+.admin-data-table *::selection,
+.queue-data-table ::selection,
+.queue-data-table *::selection,
+.registry-data-table ::selection,
+.registry-data-table *::selection,
+.schedules-data-table ::selection,
+.schedules-data-table *::selection {
+  background-color: transparent;
+  color: inherit;
+}
+
+.admin-data-table .admin-table-header,
+.queue-data-table .queue-table-header,
+.registry-data-table .registry-table-header,
+.schedules-data-table .schedules-table-header {
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+}
+
+.admin-data-table .admin-table-row,
+.registry-data-table .registry-table-row {
+  background: #fff;
+  border-bottom: 1px solid rgb(0 0 0 / 0.065);
+  @apply transition-colors duration-150 ease-out;
+}
+
+.queue-data-table .queue-table-row {
+  background: #fff;
+  border-bottom: 1px solid rgb(0 0 0 / 0.065);
+  @apply transition-colors duration-150 ease-out;
+}
+
+.admin-data-table .admin-table-row:hover,
+.registry-data-table .registry-table-row:hover {
+  background: rgb(62 180 137 / 0.1);
+}
+
+.queue-data-table .queue-table-row:hover {
+  background: rgb(0 0 0 / 0.06);
+}
+
+/* Schedules: white rows + gray row hover (same as queue). */
+.schedules-data-table .schedules-table-row {
+  background: #fff;
+  border-bottom: 1px solid rgb(0 0 0 / 0.065);
+  @apply transition-colors duration-150 ease-out;
+}
+
+.schedules-data-table .schedules-table-row:hover {
+  background: rgb(0 0 0 / 0.06);
+}
+
+/* Create profile: responsive grids + input placeholder (page uses utility classes for layout). */
+@layer components {
+  .create-profile-input::placeholder {
+    color: #a2b4b8;
+    font-weight: 600;
+  }
+
+  @media (max-width: 1360px) {
+    .create-profile-page-body {
+      padding: 20px 24px 32px;
+    }
+    .create-profile-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(215px, 250px);
+      column-gap: 18px;
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .create-profile-page-body {
+      padding: 16px 18px 28px;
+    }
+    .create-profile-grid {
+      grid-template-columns: 1fr;
+    }
+    .create-profile-biometrics {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .create-profile-page-body {
+      padding: 12px 12px 20px;
+    }
+    .name-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .name-grid label:last-of-type {
+      grid-column: 1 / -1;
+    }
+    .dob-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .contact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .addr-street-grid {
+      grid-template-columns: 1fr;
+    }
+    .addr-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .parents-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .dob-grid,
+    .contact-grid,
+    .addr-grid,
+    .name-grid {
+      grid-template-columns: 1fr;
+    }
+    .parent-name-grid,
+    .parent-bio-grid,
+    .parent-address-grid,
+    .parent-address-top-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Schedule appointment (full page): same horizontal rhythm as queue/create-profile; cap right column on ultrawide. */
+  .schedule-appointment-page-body {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 24px 16px 32px;
+  }
+
+  .schedule-appointment-main-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .schedule-appointment-two-col-exposure {
+    display: grid;
+    gap: 1rem 1.25rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 900px) {
+    .schedule-appointment-page-body {
+      padding-inline: 32px;
+    }
+
+    .schedule-appointment-two-col-exposure {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 1.75rem;
+      row-gap: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1180px) {
+    .schedule-appointment-page-body {
+      padding-top: 32px;
+      padding-bottom: 40px;
+    }
+
+    .schedule-appointment-main-grid {
+      gap: 2rem;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, min(36vw, 460px));
+    }
+
+    .schedule-appointment-two-col-exposure {
+      column-gap: 2.25rem;
+      row-gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1360px) {
+    .schedule-appointment-page-body {
+      padding-inline: 36px;
+    }
+
+    .schedule-appointment-main-grid {
+      gap: 2.25rem;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, min(34vw, 500px));
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .schedule-appointment-main-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(300px, min(32vw, 520px));
+    }
+  }
+}
+

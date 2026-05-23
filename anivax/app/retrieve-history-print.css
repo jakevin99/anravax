@@ -1,0 +1,661 @@
+/* Patient history print layout (RetrieveHistoryPage). Plain CSS — not utility markup. */
+
+@page {
+  size: a4 landscape;
+  margin: 6mm;
+}
+
+/* ABTC full form: Legal portrait, two pages, 10pt type */
+@page abtc {
+  size: legal portrait;
+  margin: 5mm;
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  main {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    min-height: 7.5in !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  main:has(.print-area-vaccination) {
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  main:has(.print-area-personal) {
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* ---- ABTC form (Legal portrait, 2 pages, 10pt, fit to page) ---- */
+  main:has(.abtc-preview-overlay) {
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  main:has(.abtc-preview-overlay) > .print-area {
+    display: none !important;
+  }
+
+  .abtc-preview-overlay {
+    page: abtc;
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+    background: #ffffff !important;
+    z-index: auto !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  .abtc-preview-overlay > div:last-child {
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .print-area-abtc {
+    page: abtc;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    font-size: 10pt !important;
+    line-height: 1.15 !important;
+    color: #000 !important;
+    /* Fit vaccination + nurse's note on page 2 (Legal portrait) */
+    zoom: 0.8;
+  }
+
+  /* Page 1 (personal info, exposure, doctor's order): counter-scale for readability */
+  .print-area-abtc .abtc-print-page-1 {
+    zoom: 1.25;
+  }
+
+  .print-area-abtc .abtc-print-page-1,
+  .print-area-abtc .abtc-print-page-2 {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 {
+    gap: 8px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-2 {
+    gap: 4px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 > .print-card {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+
+  .print-area-abtc .abtc-print-page-2 {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  .print-area-abtc *,
+  .print-area-abtc input,
+  .print-area-abtc textarea,
+  .print-area-abtc select,
+  .print-area-abtc button,
+  .print-area-abtc label,
+  .print-area-abtc span,
+  .print-area-abtc p,
+  .print-area-abtc th,
+  .print-area-abtc td,
+  .print-area-abtc h2,
+  .print-area-abtc h3 {
+    font-size: 10pt !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Default card spacing (page 2 vaccination / nurse's note) */
+  .print-area-abtc .print-card {
+    padding: 6px 8px 10px !important;
+    margin: 0 0 4px !important;
+    border-width: 2px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Page 1 only: personal information, exposure, doctor's order */
+  .print-area-abtc .abtc-print-page-1 .print-card {
+    padding: 12px 14px 16px !important;
+    margin: 0 0 8px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-card .absolute {
+    top: -10px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-card .absolute span {
+    font-size: 10pt !important;
+    padding: 2px 8px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 [class*="text-[11px]"],
+  .print-area-abtc .abtc-print-page-1 [class*="text-[12px]"],
+  .print-area-abtc .abtc-print-page-1 [class*="text-[13px]"],
+  .print-area-abtc .abtc-print-page-1 [class*="text-sm"],
+  .print-area-abtc .abtc-print-page-1 [class*="text-base"] {
+    font-size: 10pt !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .create-profile-input,
+  .print-area-abtc .abtc-print-page-1 input[type="text"] {
+    height: 28px !important;
+    min-height: 28px !important;
+    padding: 4px 8px !important;
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 textarea,
+  .print-area-abtc .abtc-print-page-1 textarea.create-profile-input {
+    height: auto !important;
+    min-height: 48px !important;
+    padding: 6px 8px !important;
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .flex.flex-col.gap-3\.5 {
+    gap: 10px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .flex.flex-col.gap-3,
+  .print-area-abtc .abtc-print-page-1 .grid {
+    gap: 8px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-field-row {
+    gap: 8px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-field-row > .print-field-label,
+  .print-area-abtc .abtc-print-page-1 .print-field-label {
+    font-size: 9pt !important;
+    font-weight: 700 !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-field-row > .print-field-value,
+  .print-area-abtc .abtc-print-page-1 .print-field-value {
+    min-height: 30px !important;
+    padding: 6px 10px !important;
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-plan-title {
+    font-size: 10pt !important;
+    font-weight: 800 !important;
+    margin: 4px 0 !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-body-diagram {
+    min-height: 160px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 4px 0 !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-body-diagram img {
+    max-height: 200px !important;
+    min-height: 150px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .print-body-diagram .relative {
+    max-width: 280px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .abtc-body-mark svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .print-area-abtc .abtc-print-page-1 .abtc-body-mark {
+    color: #dc2626 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-area-abtc .print-vaccination-card,
+  .print-area-abtc .print-nurses-note-card {
+    padding: 0 !important;
+    margin: 0 0 4px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .print-area-abtc .print-vaccination-outer,
+  .print-area-abtc .print-nurses-note-card > div {
+    padding: 4px 6px !important;
+  }
+
+  .print-area-abtc .print-vaccination-title,
+  .print-area-abtc .print-nurses-note-card h2 {
+    font-size: 10pt !important;
+    font-weight: 700 !important;
+    margin: 0 0 4px !important;
+  }
+
+  .print-area-abtc .print-vaccination-table-wrap {
+    overflow: visible !important;
+  }
+
+  .print-area-abtc .print-vaccination-table {
+    min-width: 0 !important;
+    width: 100% !important;
+    table-layout: fixed !important;
+    font-size: 10pt !important;
+  }
+
+  .print-area-abtc .print-vaccination-table th,
+  .print-area-abtc .print-vaccination-table td {
+    padding: 4px 5px !important;
+    font-size: 10pt !important;
+  }
+
+  .print-area-abtc .print-vaccination-table .vaccination-site-cell,
+  .print-area-abtc .print-vaccination-table .vaccination-nod-cell {
+    min-height: 0 !important;
+    padding: 2px !important;
+    font-size: 10pt !important;
+  }
+
+  .print-area-abtc .print-vaccination-footer {
+    margin-top: 4px !important;
+    gap: 6px !important;
+  }
+
+  .print-area-abtc .print-vaccination-received-input {
+    font-size: 10pt !important;
+    min-height: 18px !important;
+  }
+
+  .print-area-abtc .print-nurses-note-card table {
+    font-size: 10pt !important;
+  }
+
+  .print-area-abtc .print-nurses-note-card th,
+  .print-area-abtc .print-nurses-note-card td {
+    padding: 2px !important;
+    font-size: 10pt !important;
+  }
+
+  .print-area-abtc .print-nurses-note-card .min-h-\[140px\] {
+    min-height: 48px !important;
+  }
+
+  .print-area-abtc .print-nurses-note-card .min-h-\[108px\],
+  .print-area-abtc .print-nurses-note-card [style*="minHeight"] {
+    min-height: 40px !important;
+  }
+
+  .print-area-abtc button[aria-label="Open date picker"],
+  .print-area-abtc button[aria-label="Open time picker"] {
+    display: none !important;
+  }
+
+  .print-area-abtc .no-print {
+    display: none !important;
+  }
+
+  .print-area-personal {
+    gap: 0 !important;
+    zoom: 0.82 !important;
+  }
+
+  .print-area-personal .print-personal-bundle {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .print-area-personal .print-card {
+    padding: 22px 20px !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+
+  .print-area-personal .print-field-row > .print-field-value {
+    min-height: 32px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+
+  .print-area-personal .print-section-title {
+    margin: 0 0 12px !important;
+    font-size: 15px !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-area {
+    padding: 0 !important;
+    gap: 56px !important;
+    background: #ffffff !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    zoom: 0.88;
+  }
+
+  .print-card {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    border: 1px solid #d9d9d9 !important;
+    padding: 78px 32px !important;
+    margin: 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .print-field-row {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+  }
+
+  .print-field-row > .print-field-label {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .print-field-row > .print-field-value {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    align-items: center !important;
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+    min-height: 42px !important;
+    line-height: 1.2 !important;
+  }
+
+  .print-field-value {
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    hyphens: none !important;
+  }
+
+  .print-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .print-grid-5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px 20px !important;
+  }
+
+  .print-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .print-body-diagram {
+    max-height: 620px;
+    overflow: hidden;
+  }
+
+  .print-body-diagram img {
+    max-height: 620px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .print-area-vaccination {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    zoom: 1 !important;
+    overflow: visible !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding-top: 12mm !important;
+    padding-bottom: 8mm !important;
+    box-sizing: border-box !important;
+  }
+
+  .print-area-vaccination .print-vaccination-card,
+  .print-area-vaccination .print-vaccination-outer {
+    overflow: visible !important;
+    max-width: none !important;
+  }
+
+  .print-vaccination-card {
+    padding: 8px 4px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+
+  .print-vaccination-outer {
+    padding: 6px 4px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .print-vaccination-title {
+    font-size: 18px !important;
+    margin: 0 0 12px !important;
+  }
+
+  .print-vaccination-table-wrap {
+    overflow: visible !important;
+    overflow-x: visible !important;
+    max-width: 100% !important;
+  }
+
+  .print-vaccination-table-wrap::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .print-vaccination-table {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+    font-size: 10pt !important;
+  }
+
+  .print-vaccination-table thead {
+    display: table-header-group !important;
+  }
+
+  .print-vaccination-table th,
+  .print-vaccination-table td {
+    padding: 4px 3px !important;
+    font-size: 10pt !important;
+    line-height: 1.25 !important;
+    word-wrap: break-word !important;
+    overflow: hidden !important;
+  }
+
+  .print-vaccination-table tbody td:nth-child(4),
+  .print-vaccination-table tbody td:nth-child(9) {
+    word-wrap: normal !important;
+    overflow-wrap: normal !important;
+    overflow: visible !important;
+    width: 23% !important;
+    min-width: 0 !important;
+    vertical-align: middle !important;
+    padding: 6px 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .print-vaccination-table tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .print-vaccination-table button[aria-label="Open date picker"],
+  .print-vaccination-table button[aria-label="Open time picker"] {
+    display: none !important;
+  }
+
+  .print-vaccination-table [role="button"] {
+    min-height: 0 !important;
+    padding: 3px 5px !important;
+    font-size: 10pt !important;
+  }
+
+  .print-vaccination-table .vaccination-site-cell {
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    padding: 2px 4px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 8.5pt !important;
+    font-weight: 500 !important;
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: max-content !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    align-items: center !important;
+    column-gap: 4px !important;
+    white-space: nowrap !important;
+  }
+
+  .print-vaccination-table .vaccination-site-cell button {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    margin: 0 !important;
+    padding: 0 2px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .print-vaccination-table .vaccination-site-cell > span:not(.vaccination-site-checkbox-mark) {
+    margin: 0 !important;
+    padding: 0 1px !important;
+  }
+
+  .print-vaccination-table .vaccination-site-checkbox-mark {
+    width: 11px !important;
+    height: 11px !important;
+    min-width: 11px !important;
+    min-height: 11px !important;
+    border-radius: 2px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .print-vaccination-table .vaccination-site-checkbox-mark svg {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  .print-vaccination-table tbody td:nth-child(5),
+  .print-vaccination-table tbody td:nth-child(10) {
+    width: 5% !important;
+    min-width: 0 !important;
+  }
+
+  .print-vaccination-table tbody td:nth-child(2),
+  .print-vaccination-table tbody td:nth-child(7) {
+    width: 9% !important;
+  }
+
+  .print-vaccination-table tbody td:nth-child(3),
+  .print-vaccination-table tbody td:nth-child(8) {
+    width: 8% !important;
+  }
+
+  .print-vaccination-table .vaccination-nod-cell {
+    min-height: 0 !important;
+    padding: 5px !important;
+    font-size: 10pt !important;
+  }
+
+  .print-vaccination-obs-wrap {
+    overflow: visible !important;
+    max-width: 100% !important;
+  }
+
+  .print-vaccination-obs-wrap button[aria-label="Open date picker"] {
+    display: none !important;
+  }
+
+  .print-vaccination-obs-wrap [role="button"] {
+    min-height: 0 !important;
+    padding: 2px 4px !important;
+    font-size: 9pt !important;
+  }
+
+  .print-vaccination-footer {
+    margin-top: 14px !important;
+    gap: 12px !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+
+  .print-vaccination-received-input {
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    border-radius: 0 !important;
+    min-height: 28px !important;
+    padding: 4px 2px !important;
+    font-size: 9pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

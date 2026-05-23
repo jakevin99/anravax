@@ -1,0 +1,16 @@
+.DS_Store
+.env
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+
+# SQLite + uploads
+/server/data/
+
+# Local env and secrets
+.env
+.env.local
+.env.*.local
+VERCEL_ENV_VARS.txt
